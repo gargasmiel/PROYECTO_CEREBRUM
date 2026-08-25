@@ -1,0 +1,55 @@
+[33mcommit ff514456395b0ff5d2c213f9375176da77356667[m[33m ([m[1;35mrefs/stash[m[33m)[m
+Merge: 553eba8 8eda7d8
+Author: kevinstz <kevinstiv010@gmail.com>
+Date:   Tue Aug 25 10:26:28 2026 -0500
+
+    WIP on main: 553eba8 Merge pull request #42 from gargasmiel/johan#lopez
+
+[33mcommit 8eda7d81cf3f7c78de553e780d58668dadfa32af[m
+Author: kevinstz <kevinstiv010@gmail.com>
+Date:   Tue Aug 25 10:26:28 2026 -0500
+
+    index on main: 553eba8 Merge pull request #42 from gargasmiel/johan#lopez
+
+[33mcommit 553eba84896fcdcbff89ea76c81f6d845e193a54[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: ae44e1e a0cef90
+Author: Johan <164110527+Nihil7079@users.noreply.github.com>
+Date:   Mon Aug 24 17:25:07 2026 -0500
+
+    Merge pull request #42 from gargasmiel/johan#lopez
+    
+    clases
+
+[33mcommit ae44e1e5dfa62a19243f493f92f65c2e5548c8e4[m
+Merge: a502736 43dfc6c
+Author: Gabriel Fernández <gabrieljfernandeza@gmail.com>
+Date:   Mon Aug 24 17:04:21 2026 -0500
+
+    Merge pull request #41 from gargasmiel/gabriel#fernandez
+    
+    Gabriel#fernandez
+
+[33mcommit 8beb4f1b807ffb3d9914763b34b6520a8da90766[m
+Author: Garasmiel <gabrieljfernandeza@gmail.com>
+Date:   Mon Aug 24 17:02:48 2026 -0500
+
+    gantt
+
+[33mcommit 4db8bae8d25fe6fb3e87abcc2d14dda3c67dcc6b[m
+Author: Garasmiel <gabrieljfernandeza@gmail.com>
+Date:   Mon Aug 24 14:43:55 2026 -0500
+
+    gantt
+
+[33mcommit a502736df9f6a0422441205c5f0eb5b1cdda2952[m
+Merge: 8502acb 67c5fc8
+Author: kevinstz <kevinstiv010@gmail.com>
+Date:   Mon Aug 24 00:22:39 2026 -0500
+
+    Finalizando merge: Agregando diagrama de Gantt de CEREBRUM
+
+[33mcommit 67c5fc805eac134e120794ed4a463c2938509600[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mkevin#zarate[m[33m, [m[1;31morigin/kevin#zarate[m[33m)[m
+Author: kevinstz <kevinstiv010@gmail.com>
+Date:   Mon Aug 24 00:18:02 2026 -0500
+
+    Gantt
