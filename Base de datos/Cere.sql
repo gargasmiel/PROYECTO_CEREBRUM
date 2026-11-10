@@ -118,3 +118,49 @@ create TABLE admin_academia(
     references estudiantes(id_estudiante)
 ) engine=InnoDB;
 
+create table tema (
+    id_tema int not null auto_increment,
+    nombre_tema varchar(100) not null,
+    descripcion text not null,
+    constraint pk_tema primary key (id_tema),
+    constraint fk_tema_materia foreign key (id_materia)
+    references materia(id_materia)
+) engine=InnoDB;
+
+create table subtema(
+    id_subtema int not null auto_increment,
+    nombre_subtema varchar(100) not null,
+    descripcion text not null,
+    constraint pk_subtema primary key (id_subtema),
+    constraint fk_subtema_tema foreign key (id_tema)
+    references tema(id_tema)
+) engine=InnoDB;
+
+
+create table preguntas(
+    id_pregunta int not null auto_increment,
+    enunciado text not null,
+    dificultad varchar(20) not null,
+    constraint pk_pregunta primary key (id_pregunta),
+    constraint fk_pregunta_subtema foreign key(id_subtema)
+    references subtema(id_subtema)
+) engine=InnoDB;
+
+create table opciones(
+    id_opcion int not null auto_increment,
+    id_pregunta int not null,
+    texto_opcion text not null,
+    es_correcta boolean not null default false,
+    constraint pk_opcion primary key (id_opcion),
+    constraint fk_opcion_pregunta foreign key (id_pregunta)
+    references preguntas(id_pregunta)
+) engine=InnoDB;
+
+CREATE table tipo_pregunta(
+    id_tipo int not null auto_increment,
+    tipo varchar(50) not null,
+    constraint pk_tipo primary key (id_tipo)
+    constraint fk_tipo_pregunta foreign key( id_pregunta)
+    references preguntas(id_pregunta)
+)engine=InnoDB;
+
