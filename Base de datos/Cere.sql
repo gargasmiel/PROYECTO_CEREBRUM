@@ -132,7 +132,6 @@ create table subtema(
     references tema(id_tema)
 ) engine=InnoDB;
 
-
 create table preguntas(
     id_pregunta int not null auto_increment,
     enunciado text not null,
@@ -205,7 +204,6 @@ create table preguntas_evaluacion(
     constraint fk_preguntas_evaluacion_opciones foreign key (id_opcion)
     references opciones(id_opcion),
 ) engine=InnoDB;
-
 
 create table contenido(
     id_contenido int not null auto_increment,
