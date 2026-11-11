@@ -164,3 +164,31 @@ CREATE table tipo_pregunta(
     references preguntas(id_pregunta)
 )engine=InnoDB;
 
+create table usuario(
+    id_usuario int not null auto_increment,
+    id_estudiante int not null,
+    id_profesor int not null,
+    primer_nombre varchar(50) not null,
+    segundo_nombre varchar(50)null,
+    primer_apellido varchar(50) not null,
+    segundo_apellido varchar(50)null,
+    telefono varchar(20) not null,
+    correo varchar(100) not null unique,
+    contraseña char(64)not null,
+    salt char(32) not null,
+    rol varchar(20) not null DEFAULT 'estudiante',
+    activo boolean not null DEFAULT true,
+    intentos_fallidos int not null DEFAULT 0,
+    bloqueado boolean not null DEFAULT false,
+    ultimo_acceso datetime null,
+    fecha_creacion datetime not null DEFAULT CURRENT_TIMESTAMP,
+
+    constraint pk_usuario primary key(id_usuario),
+    constraint fk_usuario_estudiante foreign key (id_estudiante)
+    references estudiantes(id_estudiante),
+    constraint fk_usuario_profesor foreign key (id_profesor)
+    references profesor(id_profesor),
+    constraint uq_usuario unique (correo),
+    constraint ck_usuario_rol check (rol in ('estudiante', 'profesor', 'admin'))
+    on delete set null
+) engine=InnoDB;
