@@ -55,11 +55,7 @@ create table matricula_materia(
     id_materia int not null,
     nota decimal(5,2) not null default 0,
     avance decimal(5,2) not null default 0,
-    constraint pk_matricula_materia primary key(id_matricula, id_materia),
-    constraint fk_matricula foreign key (id_matricula)
-    references matricula(id_matricula),
-    constraint fk_materia foreign key (id_materia)
-    references materia(id_materia)
+    constraint pk_matricula_materia primary key(id_matricula, id_materia)
 ) engine=InnoDB;
 
 CREATE TABLE materia(
@@ -192,3 +188,32 @@ create table usuario(
     constraint ck_usuario_rol check (rol in ('estudiante', 'profesor', 'admin'))
     on delete set null
 ) engine=InnoDB;
+
+create table evaluacion(
+    id_evaluacion int not null auto_increment,
+    fecha_inicio datetime not null,
+    fecha_fin datetime not null,
+    perls_obtenidas smallint(5) not null default 0,
+    constraint pk_evaluacion primary key (id_evaluacion)
+) engine=InnoDB;
+
+create table preguntas_evaluacion(
+    id_pregunta int not null,
+    id_evaluacion int not null,
+    calificacion decimal(5,2) not null default 0,
+    constraint pk_preguntas_evaluacion primary key (id_pregunta, id_evaluacion),
+    constraint fk_preguntas_evaluacion_opciones foreign key (id_opcion)
+    references opciones(id_opcion),
+) engine=InnoDB;
+
+
+create table contenido(
+    id_contenido int not null auto_increment,
+    id_subtema int not null,
+    titulo varchar(100) not null,
+    descripcion text not null,
+    tipo_contenido varchar(50) not null,
+    constraint pk_contenido primary key (id_contenido),
+    constraint fk_contenido_subtema foreign key (id_subtema)
+    references subtema(id_subtema)
+)engine=InnoDB;
