@@ -132,6 +132,11 @@ create table subtema(
     references tema(id_tema)
 ) engine=InnoDB;
 
+create table preguntas_subtema(
+        id_pregunta int ,
+        id_subtema
+)engine=InnoDB;
+
 create table preguntas(
     id_pregunta int not null auto_increment,
     enunciado text not null,
@@ -214,4 +219,15 @@ create table contenido(
     constraint pk_contenido primary key (id_contenido),
     constraint fk_contenido_subtema foreign key (id_subtema)
     references subtema(id_subtema)
+)engine=InnoDB;
+
+CREATE TABLE token (
+    id_token INT NOT NULL AUTO_INCREMENT,
+    codigo_token CHAR(64) NOT NULL,
+    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_login INT NOT NULL,
+
+    CONSTRAINT pk_token PRIMARY KEY (id_token),
+    CONSTRAINT fk_token_login FOREIGN KEY (id_login)
+        REFERENCES login(id_login)
 )engine=InnoDB;
