@@ -1,233 +1,243 @@
-create DATABASE cerebrum;
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE cerebrum
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
 
-use cerebrum;
+USE cerebrum;
 
-create table estudiantes(
-    id_estudiante int not  NULL auto_increment primary key,
-    primer_nombre varchar(50) not null,
-    segundo_nombre varchar (50) null,
-    primer_apellido varchar (50)not null,
-    segundo_apellido varchar (50) null,
-    fecha_nacimiento date not null,
-    numero_documento varchar (20) not null unique,
-    tipo_documento varchar (20) not null,
-    telefono varchar (20) not null,
-    creditos_disponibles int not null default 0,
-    perls_disponibles int not null default 0,
-    fecha_registro timestamp not null default current_timestamp,
-    ultimo_registro timestamp not null default current_timestamp on update current_timestamp,
-    racha varchar (50) not null default 0,
-    cuenta_verificada boolean not null default false
-) engine=InnoDB;
+CREATE TABLE estudiantes (
+    id_estudiante INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    primer_nombre VARCHAR(50) NOT NULL,
+    segundo_nombre VARCHAR(50) NULL,
+    primer_apellido VARCHAR(50) NOT NULL,
+    segundo_apellido VARCHAR(50) NULL,
+    fecha_nacimiento DATE NOT NULL,
+    numero_documento VARCHAR(20) NOT NULL UNIQUE,
+    tipo_documento VARCHAR(20) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    creditos_disponibles INT NOT NULL DEFAULT 0,
+    perls_disponibles INT NOT NULL DEFAULT 0,
+    fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ultimo_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    racha INT NOT NULL DEFAULT 0,
+    cuenta_verificada BOOLEAN NOT NULL DEFAULT FALSE
+) ENGINE=InnoDB;
 
-create table suscripcion(
-    id_suscripcion int not null auto_increment primary key,
-    id_estudiante int not null,
-    fecha_inicio date not null,
-    fecha_fin date not null,
-    tipo_suscripcion varchar (50) not null,
-    estado boolean not null default true,
-    foreign key (id_estudiante) references estudiantes(id_estudiante)
-) engine=InnoDB;
+CREATE TABLE suscripcion (
+    id_suscripcion INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_estudiante INT NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    tipo_suscripcion VARCHAR(50) NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
+    CONSTRAINT fk_suscripcion_estudiante FOREIGN KEY (id_estudiante)
+        REFERENCES estudiantes(id_estudiante)
+) ENGINE=InnoDB;
 
-create table plan(
-    id_plan int not null auto_increment,
-    nombre_plan varchar(50) not null,
-    precio decimal(10,2) not null,
-    duracion numeric(10,2) not null,
-    constraint pk_plan primary key(id_plan),
-    constraint fk_plan_suscripcion foreign key(id_suscripcion)
-    references suscripcion(id_suscripcion)
-) engine=InnoDB;
+CREATE TABLE plan (
+    id_plan INT NOT NULL AUTO_INCREMENT,
+    id_suscripcion INT NOT NULL,
+    nombre_plan VARCHAR(50) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    duracion DECIMAL(10,2) NOT NULL,
+    CONSTRAINT pk_plan PRIMARY KEY (id_plan),
+    CONSTRAINT fk_plan_suscripcion FOREIGN KEY (id_suscripcion)
+        REFERENCES suscripcion(id_suscripcion)
+) ENGINE=InnoDB;
 
-CREATE TABLE matricula(
-    id_matricula int not null auto_increment,
-    fecha_matricula date not null,
-    id_estudiante int not null,
-    constraint pk_matricula primary key(id_matricula),
-    constraint fk_estudiante foreign key (id_estudiante) references estudiantes(id_estudiante)
-) engine=InnoDB;
+CREATE TABLE matricula (
+    id_matricula INT NOT NULL AUTO_INCREMENT,
+    fecha_matricula DATE NOT NULL,
+    id_estudiante INT NOT NULL,
+    CONSTRAINT pk_matricula PRIMARY KEY (id_matricula),
+    CONSTRAINT fk_matricula_estudiante FOREIGN KEY (id_estudiante)
+        REFERENCES estudiantes(id_estudiante)
+) ENGINE=InnoDB;
 
-create table matricula_materia(
-    id_matricula int not null,
-    id_materia int not null,
-    nota decimal(5,2) not null default 0,
-    avance decimal(5,2) not null default 0,
-    constraint pk_matricula_materia primary key(id_matricula, id_materia)
-) engine=InnoDB;
+CREATE TABLE profesor (
+    id_profesor INT NOT NULL AUTO_INCREMENT,
+    primer_nombre VARCHAR(50) NOT NULL,
+    segundo_nombre VARCHAR(50) NULL,
+    primer_apellido VARCHAR(50) NOT NULL,
+    segundo_apellido VARCHAR(50) NULL,
+    fecha_nacimiento DATE NOT NULL,
+    numero_documento VARCHAR(20) NOT NULL,
+    tipo_documento VARCHAR(20) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    CONSTRAINT pk_profesor PRIMARY KEY (id_profesor),
+    CONSTRAINT uq_profesor_documento UNIQUE (numero_documento, tipo_documento)
+) ENGINE=InnoDB;
 
-CREATE TABLE materia(
-    id_materia int not null auto_increment,
-    nombre varchar(100)not null,
-    descripcion text not null,
+CREATE TABLE materia (
+    id_materia INT NOT NULL AUTO_INCREMENT,
+    id_profesor INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
+    CONSTRAINT pk_materia PRIMARY KEY (id_materia),
+    CONSTRAINT fk_materia_profesor FOREIGN KEY (id_profesor)
+        REFERENCES profesor(id_profesor)
+) ENGINE=InnoDB;
 
-    constraint pk_materia primary key(id_materia),
-    constraint fk_materia_profesor foreign key (id_profesor)
-    references profesor(id_profesor)
-) engine=InnoDB;
+CREATE TABLE matricula_materia (
+    id_matricula INT NOT NULL,
+    id_materia INT NOT NULL,
+    nota DECIMAL(5,2) NOT NULL DEFAULT 0,
+    avance DECIMAL(5,2) NOT NULL DEFAULT 0,
+    CONSTRAINT pk_matricula_materia PRIMARY KEY (id_matricula, id_materia),
+    CONSTRAINT fk_matricula_materia_matricula FOREIGN KEY (id_matricula)
+        REFERENCES matricula(id_matricula),
+    CONSTRAINT fk_matricula_materia_materia FOREIGN KEY (id_materia)
+        REFERENCES materia(id_materia)
+) ENGINE=InnoDB;
 
-create table profesor(
-    id_profesor int not null auto_increment,
-    id_materia int not null,
-    primer_nombre varchar(50)not null,
-    segundo_nombre varchar(50) null,
-    primer_apellido varchar(50)not null,
-    segundo_apellido varchar(50) null,
-    fecha_nacimiento date not null,
-    numero_documento varchar(20) not null unique,
-    tipo_documento varchar(20) not null unique,
-    telefono varchar(20) not null,
+CREATE TABLE login (
+    id_login INT NOT NULL AUTO_INCREMENT,
+    correo VARCHAR(100) NOT NULL,
+    contrasena CHAR(64) NOT NULL,
+    salt CHAR(32) NOT NULL,
+    id_estudiante INT NULL,
+    id_profesor INT NULL,
+    CONSTRAINT pk_login PRIMARY KEY (id_login),
+    CONSTRAINT uq_login_correo UNIQUE (correo),
+    CONSTRAINT fk_login_estudiante FOREIGN KEY (id_estudiante)
+        REFERENCES estudiantes(id_estudiante),
+    CONSTRAINT fk_login_profesor FOREIGN KEY (id_profesor)
+        REFERENCES profesor(id_profesor)
+) ENGINE=InnoDB;
 
-    constraint pk_profesor primary key(id_profesor),
-    constraint fk_profesor_materia foreign key (id_materia)
-    references materia(id_materia),
-    constraint fk_profesor_login foreign key (id_login)
-    references login(id_login),
-    constraint uq_profesor unique (numero_documento, tipo_documento)
+CREATE TABLE admin_academia (
+    id_admin INT NOT NULL AUTO_INCREMENT,
+    id_estudiante INT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    nombre_academia VARCHAR(100) NOT NULL,
+    direccion_academia VARCHAR(200) NOT NULL,
+    CONSTRAINT pk_admin_academia PRIMARY KEY (id_admin),
+    CONSTRAINT fk_admin_academia_estudiante FOREIGN KEY (id_estudiante)
+        REFERENCES estudiantes(id_estudiante)
+) ENGINE=InnoDB;
 
-) engine=InnoDB;
+CREATE TABLE tema (
+    id_tema INT NOT NULL AUTO_INCREMENT,
+    id_materia INT NOT NULL,
+    nombre_tema VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
+    CONSTRAINT pk_tema PRIMARY KEY (id_tema),
+    CONSTRAINT fk_tema_materia FOREIGN KEY (id_materia)
+        REFERENCES materia(id_materia)
+) ENGINE=InnoDB;
 
-create table login(
-    id_login int not null auto_increment,
-    correo varchar(100) not null unique,
-    contraseña char(64) not null,
-    salt char(32) not null,
+CREATE TABLE subtema (
+    id_subtema INT NOT NULL AUTO_INCREMENT,
+    id_tema INT NOT NULL,
+    nombre_subtema VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
+    CONSTRAINT pk_subtema PRIMARY KEY (id_subtema),
+    CONSTRAINT fk_subtema_tema FOREIGN KEY (id_tema)
+        REFERENCES tema(id_tema)
+) ENGINE=InnoDB;
 
-    constraint pk_login primary key(id_login),
-    constraint unique_login unique (correo),
-    constraint fk_login_estudiante foreign key (id_estudiante)
-    references estudiantes(id_estudiante),
-    constraint fk_login_profesor foreign key (id_profesor)
-    references profesor(id_profesor)
-) engine=InnoDB;
+CREATE TABLE preguntas (
+    id_pregunta INT NOT NULL AUTO_INCREMENT,
+    enunciado TEXT NOT NULL,
+    dificultad VARCHAR(20) NOT NULL,
+    CONSTRAINT pk_pregunta PRIMARY KEY (id_pregunta)
+) ENGINE=InnoDB;
 
-create TABLE admin_academia(
-    id_admin int not null auto_increment,
-    nombre varchar(50) not null,
-    apellido varchar(50) not null,
-    nombre_academia varchar(100) not null,
-    direccion_academia varchar(200) not null,
-    constraint pk_admin_academia primary key(id_admin),
-    constraint fk_admin_academia_estudiante foreign key (id_estudiante)
-    references estudiantes(id_estudiante)
-) engine=InnoDB;
+CREATE TABLE preguntas_subtema (
+    id_pregunta INT NOT NULL,
+    id_subtema INT NOT NULL,
+    CONSTRAINT pk_preguntas_subtema PRIMARY KEY (id_pregunta, id_subtema),
+    CONSTRAINT fk_preguntas_subtema_pregunta FOREIGN KEY (id_pregunta)
+        REFERENCES preguntas(id_pregunta),
+    CONSTRAINT fk_preguntas_subtema_subtema FOREIGN KEY (id_subtema)
+        REFERENCES subtema(id_subtema)
+) ENGINE=InnoDB;
 
-create table tema (
-    id_tema int not null auto_increment,
-    nombre_tema varchar(100) not null,
-    descripcion text not null,
-    constraint pk_tema primary key (id_tema),
-    constraint fk_tema_materia foreign key (id_materia)
-    references materia(id_materia)
-) engine=InnoDB;
+CREATE TABLE opciones (
+    id_opcion INT NOT NULL AUTO_INCREMENT,
+    id_pregunta INT NOT NULL,
+    texto_opcion TEXT NOT NULL,
+    es_correcta BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT pk_opcion PRIMARY KEY (id_opcion),
+    CONSTRAINT fk_opcion_pregunta FOREIGN KEY (id_pregunta)
+        REFERENCES preguntas(id_pregunta)
+) ENGINE=InnoDB;
 
-create table subtema(
-    id_subtema int not null auto_increment,
-    nombre_subtema varchar(100) not null,
-    descripcion text not null,
-    constraint pk_subtema primary key (id_subtema),
-    constraint fk_subtema_tema foreign key (id_tema)
-    references tema(id_tema)
-) engine=InnoDB;
+CREATE TABLE tipo_pregunta (
+    id_tipo INT NOT NULL AUTO_INCREMENT,
+    id_pregunta INT NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_tipo PRIMARY KEY (id_tipo),
+    CONSTRAINT fk_tipo_pregunta FOREIGN KEY (id_pregunta)
+        REFERENCES preguntas(id_pregunta)
+) ENGINE=InnoDB;
 
-create table preguntas_subtema(
-        id_pregunta int ,
-        id_subtema
-)engine=InnoDB;
+CREATE TABLE evaluacion (
+    id_evaluacion INT NOT NULL AUTO_INCREMENT,
+    fecha_inicio DATETIME NOT NULL,
+    fecha_fin DATETIME NOT NULL,
+    perls_obtenidas SMALLINT NOT NULL DEFAULT 0,
+    CONSTRAINT pk_evaluacion PRIMARY KEY (id_evaluacion)
+) ENGINE=InnoDB;
 
-create table preguntas(
-    id_pregunta int not null auto_increment,
-    enunciado text not null,
-    dificultad varchar(20) not null,
-    constraint pk_pregunta primary key (id_pregunta),
-    constraint fk_pregunta_subtema foreign key(id_subtema)
-    references subtema(id_subtema)
-) engine=InnoDB;
+CREATE TABLE preguntas_evaluacion (
+    id_pregunta INT NOT NULL,
+    id_evaluacion INT NOT NULL,
+    id_opcion INT NULL,
+    calificacion DECIMAL(5,2) NOT NULL DEFAULT 0,
+    CONSTRAINT pk_preguntas_evaluacion PRIMARY KEY (id_pregunta, id_evaluacion),
+    CONSTRAINT fk_preguntas_evaluacion_pregunta FOREIGN KEY (id_pregunta)
+        REFERENCES preguntas(id_pregunta),
+    CONSTRAINT fk_preguntas_evaluacion_evaluacion FOREIGN KEY (id_evaluacion)
+        REFERENCES evaluacion(id_evaluacion),
+    CONSTRAINT fk_preguntas_evaluacion_opcion FOREIGN KEY (id_opcion)
+        REFERENCES opciones(id_opcion)
+) ENGINE=InnoDB;
 
-create table opciones(
-    id_opcion int not null auto_increment,
-    id_pregunta int not null,
-    texto_opcion text not null,
-    es_correcta boolean not null default false,
-    constraint pk_opcion primary key (id_opcion),
-    constraint fk_opcion_pregunta foreign key (id_pregunta)
-    references preguntas(id_pregunta)
-) engine=InnoDB;
+CREATE TABLE usuario (
+    id_usuario INT NOT NULL AUTO_INCREMENT,
+    id_estudiante INT NULL,
+    id_profesor INT NULL,
+    primer_nombre VARCHAR(50) NOT NULL,
+    segundo_nombre VARCHAR(50) NULL,
+    primer_apellido VARCHAR(50) NOT NULL,
+    segundo_apellido VARCHAR(50) NULL,
+    telefono VARCHAR(20) NOT NULL,
+    correo VARCHAR(100) NOT NULL,
+    contrasena CHAR(64) NOT NULL,
+    salt CHAR(32) NOT NULL,
+    rol VARCHAR(20) NOT NULL DEFAULT 'estudiante',
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    intentos_fallidos INT NOT NULL DEFAULT 0,
+    bloqueado BOOLEAN NOT NULL DEFAULT FALSE,
+    ultimo_acceso DATETIME NULL,
+    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_usuario PRIMARY KEY (id_usuario),
+    CONSTRAINT uq_usuario_correo UNIQUE (correo),
+    CONSTRAINT fk_usuario_estudiante FOREIGN KEY (id_estudiante)
+        REFERENCES estudiantes(id_estudiante) ON DELETE SET NULL,
+    CONSTRAINT fk_usuario_profesor FOREIGN KEY (id_profesor)
+        REFERENCES profesor(id_profesor) ON DELETE SET NULL,
+    CONSTRAINT ck_usuario_rol CHECK (rol IN ('estudiante', 'profesor', 'admin'))
+) ENGINE=InnoDB;
 
-CREATE table tipo_pregunta(
-    id_tipo int not null auto_increment,
-    tipo varchar(50) not null,
-    constraint pk_tipo primary key (id_tipo)
-    constraint fk_tipo_pregunta foreign key( id_pregunta)
-    references preguntas(id_pregunta)
-)engine=InnoDB;
-
-create table usuario(
-    id_usuario int not null auto_increment,
-    id_estudiante int not null,
-    id_profesor int not null,
-    primer_nombre varchar(50) not null,
-    segundo_nombre varchar(50)null,
-    primer_apellido varchar(50) not null,
-    segundo_apellido varchar(50)null,
-    telefono varchar(20) not null,
-    correo varchar(100) not null unique,
-    contraseña char(64)not null,
-    salt char(32) not null,
-    rol varchar(20) not null DEFAULT 'estudiante',
-    activo boolean not null DEFAULT true,
-    intentos_fallidos int not null DEFAULT 0,
-    bloqueado boolean not null DEFAULT false,
-    ultimo_acceso datetime null,
-    fecha_creacion datetime not null DEFAULT CURRENT_TIMESTAMP,
-
-    constraint pk_usuario primary key(id_usuario),
-    constraint fk_usuario_estudiante foreign key (id_estudiante)
-    references estudiantes(id_estudiante),
-    constraint fk_usuario_profesor foreign key (id_profesor)
-    references profesor(id_profesor),
-    constraint uq_usuario unique (correo),
-    constraint ck_usuario_rol check (rol in ('estudiante', 'profesor', 'admin'))
-    on delete set null
-) engine=InnoDB;
-
-create table evaluacion(
-    id_evaluacion int not null auto_increment,
-    fecha_inicio datetime not null,
-    fecha_fin datetime not null,
-    perls_obtenidas smallint(5) not null default 0,
-    constraint pk_evaluacion primary key (id_evaluacion)
-) engine=InnoDB;
-
-create table preguntas_evaluacion(
-    id_pregunta int not null,
-    id_evaluacion int not null,
-    calificacion decimal(5,2) not null default 0,
-    constraint pk_preguntas_evaluacion primary key (id_pregunta, id_evaluacion),
-    constraint fk_preguntas_evaluacion_opciones foreign key (id_opcion)
-    references opciones(id_opcion),
-) engine=InnoDB;
-
-create table contenido(
-    id_contenido int not null auto_increment,
-    id_subtema int not null,
-    titulo varchar(100) not null,
-    descripcion text not null,
-    tipo_contenido varchar(50) not null,
-    constraint pk_contenido primary key (id_contenido),
-    constraint fk_contenido_subtema foreign key (id_subtema)
-    references subtema(id_subtema)
-)engine=InnoDB;
+CREATE TABLE contenido (
+    id_contenido INT NOT NULL AUTO_INCREMENT,
+    id_subtema INT NOT NULL,
+    titulo VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL,
+    tipo_contenido VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_contenido PRIMARY KEY (id_contenido),
+    CONSTRAINT fk_contenido_subtema FOREIGN KEY (id_subtema)
+        REFERENCES subtema(id_subtema)
+) ENGINE=InnoDB;
 
 CREATE TABLE token (
     id_token INT NOT NULL AUTO_INCREMENT,
     codigo_token CHAR(64) NOT NULL,
     fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_login INT NOT NULL,
-
     CONSTRAINT pk_token PRIMARY KEY (id_token),
     CONSTRAINT fk_token_login FOREIGN KEY (id_login)
         REFERENCES login(id_login)
-)engine=InnoDB;
+) ENGINE=InnoDB;
