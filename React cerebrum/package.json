@@ -1,0 +1,16 @@
+{
+  "name": "react-cerebrum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "dev:frontend": "npm start --prefix frontend",
+    "dev:backend": "npm start --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
