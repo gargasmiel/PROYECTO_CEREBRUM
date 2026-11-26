@@ -403,15 +403,3 @@ VALUES
 (13,24,'Idea principal','Como identificar la idea principal.','Lectura'),
 (14,25,'Inferencias','Ejercicios de interpretacion textual.','Actividad'),
 (15,27,'Textos narrativos','Caracteristicas de los textos narrativos.','Documento');
-
-INSERT INTO token
-(id_token, codigo_token, id_login)
-VALUES
-(1,SHA2('TOKEN-ESTUDIANTE-001',256),1),
-(2,SHA2('TOKEN-ESTUDIANTE-002',256),2),
-(3,SHA2('TOKEN-ESTUDIANTE-003',256),3),
-(4,SHA2('TOKEN-ESTUDIANTE-004',256),4),
-(5,SHA2('TOKEN-ESTUDIANTE-005',256),5),
-(6,SHA2('TOKEN-PROFESOR-001',256),6),
-(7,SHA2('TOKEN-PROFESOR-002',256),7),
-(8,SHA2('TOKEN-PROFESOR-003',256),8);
