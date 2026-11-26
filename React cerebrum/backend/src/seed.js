@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const pool = require('./src/config/db');
-equire('dotenv').config();
+require('dotenv').config();
 async function crearUsuarioAdmin() {
   const primer_nombre = process.env.SEED_ADMIN_NOMBRE || 'Administrador';
   const segundo_nombre = process.env.SEED_ADMIN_SEGUNDO_NOMBRE || 'General';
@@ -19,7 +19,7 @@ async function crearUsuarioAdmin() {
      }
      const passwordEncriptada = await bcrypt.hash(passwordPlano, 10);
      await pool.query(
-      'INSERT INTO usuario (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, correo, contrasena, rol, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO usuario (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, correo, contrasena, rol, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [primer_nombre,segundo_nombre, primer_apellido, segundo_apellido, telefono, correo, passwordEncriptada, 'admin', 1]
     );
     console.log('Usuario administrador creado con exito:');
