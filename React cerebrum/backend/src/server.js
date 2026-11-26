@@ -18,7 +18,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authrouter);
 
 app.use((req, res) => {
-  res.status(404).json({ message: "Ruta no encontrada" });
+  res.status(404).json({ message: "el servidor esta en funcionamiento" });
 });
 const PORT = process.env.PORT || 4000;
 
