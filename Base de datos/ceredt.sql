@@ -391,4 +391,3 @@ VALUES
 (14,25,'Inferencias','Ejercicios de interpretacion textual.','Actividad'),
 (15,27,'Textos narrativos','Caracteristicas de los textos narrativos.','Documento');
 
-

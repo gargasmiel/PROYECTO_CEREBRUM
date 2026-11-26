@@ -114,7 +114,7 @@ CREATE TABLE admin_academia (
     CONSTRAINT pk_admin_academia PRIMARY KEY (id_admin),
     CONSTRAINT fk_admin_academia_estudiante FOREIGN KEY (id_estudiante)
         REFERENCES estudiantes(id_estudiante)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB;  
 
 CREATE TABLE tema (
     id_tema INT NOT NULL AUTO_INCREMENT,
@@ -232,12 +232,3 @@ CREATE TABLE contenido (
         REFERENCES subtema(id_subtema)
 ) ENGINE=InnoDB;
 
-CREATE TABLE token (
-    id_token INT NOT NULL AUTO_INCREMENT,
-    codigo_token CHAR(64) NOT NULL,
-    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    id_login INT NOT NULL,
-    CONSTRAINT pk_token PRIMARY KEY (id_token),
-    CONSTRAINT fk_token_login FOREIGN KEY (id_login)
-        REFERENCES login(id_login)
-) ENGINE=InnoDB;
