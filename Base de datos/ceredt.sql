@@ -47,15 +47,6 @@ VALUES
 (5,5,'2026-04-01','2026-10-01','Premium',1),
 (6,6,'2026-05-01','2026-11-01','Basica',1);
 
-INSERT INTO plan
-(id_plan, id_suscripcion, nombre_plan, precio, duracion)
-VALUES
-(1,1,'Premium Anual',120000,12),
-(2,2,'Basico Anual',60000,12),
-(3,3,'Premium Semestral',75000,6),
-(4,4,'Basico Semestral',35000,6),
-(5,5,'Premium Semestral',75000,6),
-(6,6,'Basico Semestral',35000,6);
 
 INSERT INTO matricula
 (id_matricula, fecha_matricula, id_estudiante)
@@ -183,10 +174,6 @@ VALUES
 
 (23,NULL,4,'Monica','Isabel','Torres','Vargas','3105551004',
  'profesor4@cerebrum.com',SHA2('Demo1234',256),MD5('usuario023'),'profesor',1,0,0,NOW()),
-
-(24,NULL,NULL,'Administrador','General','CEREBRUM','Sistema','3009999999',
- 'admin@cerebrum.com',SHA2('Admin1234',256),MD5('usuario024'),'admin',1,0,0,NOW());
-
 
 INSERT INTO tema
 (id_tema, id_materia, nombre_tema, descripcion)
@@ -404,14 +391,7 @@ VALUES
 (14,25,'Inferencias','Ejercicios de interpretacion textual.','Actividad'),
 (15,27,'Textos narrativos','Caracteristicas de los textos narrativos.','Documento');
 
-INSERT INTO token
-(id_token, codigo_token, id_login)
-VALUES
-(1,SHA2('TOKEN-ESTUDIANTE-001',256),1),
-(2,SHA2('TOKEN-ESTUDIANTE-002',256),2),
-(3,SHA2('TOKEN-ESTUDIANTE-003',256),3),
-(4,SHA2('TOKEN-ESTUDIANTE-004',256),4),
-(5,SHA2('TOKEN-ESTUDIANTE-005',256),5),
-(6,SHA2('TOKEN-PROFESOR-001',256),6),
-(7,SHA2('TOKEN-PROFESOR-002',256),7),
-(8,SHA2('TOKEN-PROFESOR-003',256),8);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 1a83e1c6921347fa6e5f2b611acdc6e4d01c0cec
